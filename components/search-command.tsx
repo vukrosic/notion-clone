@@ -23,6 +23,22 @@ export const SearchCommand = () => {
         setIsMounted(true)
     }, [])
 
+    useEffect(() => {
+        const down = (e: KeyboardEvent) => {
+            if(e.key === "k" && (e.metaKey || e.ctrlKey)) {
+                e.preventDefault()
+                toggle()
+            }
+        }
+        document.addEventListener("keydown", down)
+        return () => document.removeEventListener("keydown", down)
+    }, [toggle])
+
+    const onSelect = (id: string) => {
+        router.push(`/documents/${id}`)
+        onClose()
+    }
+
     if(!isMounted) return null
 
     return (
@@ -38,7 +54,7 @@ export const SearchCommand = () => {
                             key={document._id}
                             value={`${document._id}-${document.title}`}
                             title={document.title}
-                            onSelect={() => {}}
+                            onSelect={onSelect}
                         >
                             {document.icon ? (
                                 <p className="mr-2 text-[18]">{document.icon}</p>

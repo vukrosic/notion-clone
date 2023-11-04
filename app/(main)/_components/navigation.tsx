@@ -13,11 +13,15 @@ import { toast } from "sonner"
 import { DocumentList } from "./document-list"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { TrashBox } from "./trash-box"
+import { useSearch } from "@/hooks/useSearch"
+import { useSettings } from "@/hooks/use-settings"
 
 export const Navigation = () => {
     const pathname = usePathname()
     const isMobile = useMediaQuery("(max-width: 768px)")
     const create = useMutation(api.documents.create)
+    const search = useSearch()
+    const settings = useSettings()
 
     useEffect(() => {
         if (isMobile) {
@@ -126,12 +130,12 @@ export const Navigation = () => {
                         label="Search"
                         icon={Search}
                         isSearch
-                        onClick={() => {}}
+                        onClick={search.onOpen}
                     />
                     <Item 
                         label="Settings"
                         icon={Settings}
-                        onClick={() => {}}
+                        onClick={settings.onOpen}
                     />
                     <Item 
                         onClick={handleCreate} 
